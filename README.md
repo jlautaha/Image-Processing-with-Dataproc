@@ -8,4 +8,26 @@
  
 # Introduction
 
-## Step 1:  Create a development machine in Compute Engine
+...
+
+# Process
+
+### Step 1:  Create a development machine in Compute Engine
+
+...
+
+### Step 2:  Install external image processing software
+
+...
+
+### Step 3: Create a Cloud Storage bucket and collect images
+
+...
+
+### Step 4: Create a Cloud Dataproc cluster
+
+...
+
+### Step 5: Submit the job to Cloud Dataproc
+
+...
