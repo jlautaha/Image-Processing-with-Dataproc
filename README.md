@@ -4,11 +4,6 @@
  - Creating a managed Cloud Dataproc cluster with Apache Spark.
  - Building and running jobs that use external packages not readily available in the cluster.
  - Shutting down the cluster.
- 
- 
-# Introduction
-
-...
 
 # Process
 
@@ -83,6 +78,9 @@ sbt assembly
 <br>
 
 ### Step 3: Create a Cloud Storage bucket and collect images
+<br>
+<br>
+
 
 **Step 3.1:** Name your bucket with Project ID
 ```
@@ -97,12 +95,88 @@ echo MYBUCKET=${MYBUCKET}
 <br>
 <br>
 
-**Step 3.2:** Name your bucket with Project ID
+**Step 3.2:** Create the bucket
+```
+gsutil mb gs://${MYBUCKET}
+```
+<br>
+<br>
+
+**Step 3.3:** Download images to the bucket
+```
+curl https://www.publicdomainpictures.net/pictures/20000/velka/family-of-three-871290963799xUk.jpg | gsutil cp - gs://${MYBUCKET}/imgs/family-of-three.jpg
+```
+```
+curl https://www.publicdomainpictures.net/pictures/10000/velka/african-woman-331287912508yqXc.jpg | gsutil cp - gs://${MYBUCKET}/imgs/african-woman.jpg
+```
+```
+curl https://www.publicdomainpictures.net/pictures/10000/velka/296-1246658839vCW7.jpg | gsutil cp - gs://${MYBUCKET}/imgs/classroom.jpg
+```
+<br>
+<br>
+
+**Step 3.4:** Check contents of the bucket
+```
+gsutil ls -R gs://${MYBUCKET}
+```
+<br>
+<br>
 
 ### Step 4: Create a Cloud Dataproc cluster
 
-...
+**Step 4.1:** Check contents of the bucket
+```
+MYCLUSTER="${USER/_/-}-qwiklab"
+```
+```
+echo MYCLUSTER=${MYCLUSTER}
+```
+<br>
+<br>
+
+**Step 4.2:** Check contents of the bucket
+```
+gcloud config set dataproc/region us-central1
+```
+```
+gcloud dataproc clusters create ${MYCLUSTER} --bucket=${MYBUCKET} --worker-machine-type=n1-standard-2 --master-machine-type=n1-standard-2 --initialization-actions=gs://spls/gsp010/install-libgtk.sh --image-version=2.0  
+```
+
 
 ### Step 5: Submit the job to Cloud Dataproc
 
-...
+**Step 5.1:** Load the face detection configuration file
+```
+curl https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml | gsutil cp - gs://${MYBUCKET}/haarcascade_frontalface_default.xml
+```
+<br>
+<br>
+
+**Step 5.2:** Input images to the face detector and submit file
+```
+cd ~/cloud-dataproc/codelabs/opencv-haarcascade
+```
+```
+gcloud dataproc jobs submit spark \
+--cluster ${MYCLUSTER} \
+--jar target/scala-2.12/feature_detector-assembly-1.0.jar -- \
+gs://${MYBUCKET}/haarcascade_frontalface_default.xml \
+gs://${MYBUCKET}/imgs/ \
+gs://${MYBUCKET}/out/
+```
+<br>
+<br>
+
+### Step 6: Check Output
+
+**Step 6.1:** Monitor the job
+Go to  Navigation menu > Dataproc > Jobs. Check that Status says Succeeded.
+<br>
+<br>
+
+**Step 6.2:** Monitor the job
+Go to Navigation menu > Sorage. You can find the bucket you created and retrieve the images and the output.
+<br>
+<br>
+
+Reference Qwiklab: [Distributed Image Processing in Cloud Dataproc](https://www.qwiklabs.com/focuses/5834?catalog_rank=%7B%22rank%22%3A7%2C%22num_filters%22%3A0%2C%22has_search%22%3Atrue%7D&parent=catalog&search_id=4914974)
