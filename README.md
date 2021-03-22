@@ -16,8 +16,15 @@
 
 The first step is to create a computing virtual machine. In order to do this you can follow the next steps:
 1. Go to Compute Engine > VM Instances > Create
-2. Configure the following fields -> Name: devhost, Series: N1, Machine Type: 2 vCPUs (n1-standard-2 instance), Identity and API Access: Allow full access to all Cloud APIs
-
+2. Configure the following fields:
+   -  Name: devhost
+   -  Series: N1
+   -  Machine Type: 2 vCPUs (n1-standard-2 instance)
+   -  Identity and API Access: Allow full access to all Cloud APIs
+ 3. Leave the rest of the fields to their default value.
+ 4. Click Create.
+<br>
+<br>
 
 ### Step 2:  Install external image processing software
 
@@ -77,7 +84,20 @@ sbt assembly
 
 ### Step 3: Create a Cloud Storage bucket and collect images
 
-...
+**Step 3.1:** Name your bucket with Project ID
+```
+GCP_PROJECT=$(gcloud config get-value core/project)
+```
+```
+MYBUCKET="${USER//google}-image-${RANDOM}"
+```
+```
+echo MYBUCKET=${MYBUCKET}
+```
+<br>
+<br>
+
+**Step 3.2:** Name your bucket with Project ID
 
 ### Step 4: Create a Cloud Dataproc cluster
 
