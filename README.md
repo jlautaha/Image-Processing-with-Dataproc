@@ -20,7 +20,7 @@
 ### Step 2:  Install external image processing software
 
 Run the following commands in the SSH window of the Compute Engine.
-<br>
+<br />
 **Step 1.1** Set up Scala and sbt
 
 ```
