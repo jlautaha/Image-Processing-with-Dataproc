@@ -146,7 +146,8 @@ gcloud dataproc clusters create ${MYCLUSTER} \
 --initialization-actions=gs://spls/gsp010/install-libgtk.sh \
 --image-version=2.0  
 ```
-
+<br>
+<br>
 
 ### Step 5: Submit the job to Cloud Dataproc
 
