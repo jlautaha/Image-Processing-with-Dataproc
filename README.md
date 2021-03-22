@@ -80,8 +80,6 @@ sbt assembly
 <br>
 
 ### Step 3: Create a Cloud Storage bucket and collect images
-<br>
-<br>
 
 
 **Step 3.1:** Name your bucket with Project ID
@@ -141,7 +139,12 @@ echo MYCLUSTER=${MYCLUSTER}
 gcloud config set dataproc/region us-central1
 ```
 ```
-gcloud dataproc clusters create ${MYCLUSTER} --bucket=${MYBUCKET} --worker-machine-type=n1-standard-2 --master-machine-type=n1-standard-2 --initialization-actions=gs://spls/gsp010/install-libgtk.sh --image-version=2.0  
+gcloud dataproc clusters create ${MYCLUSTER} \
+--bucket=${MYBUCKET} \
+--worker-machine-type=n1-standard-2 \
+--master-machine-type=n1-standard-2 \
+--initialization-actions=gs://spls/gsp010/install-libgtk.sh \
+--image-version=2.0  
 ```
 
 
@@ -173,8 +176,6 @@ gs://${MYBUCKET}/out/
 
 **Step 6.1:** Monitor the job
 Go to  Navigation menu > Dataproc > Jobs. Check that Status says Succeeded.
-<br>
-<br>
 
 **Step 6.2:** Monitor the job
 Go to Navigation menu > Sorage. You can find the bucket you created and retrieve the images and the output.
