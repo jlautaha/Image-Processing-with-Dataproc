@@ -14,7 +14,9 @@
 
 ### Step 1:  Create a development machine in Compute Engine
 
-
+The first step is to create a computing virtual machine. In order to do this you can follow the next steps:
+1. Go to Compute Engine > VM Instances > Create
+2. Configure the following fields -> Name: devhost, Series: N1, Machine Type: 2 vCPUs (n1-standard-2 instance), Identity and API Access: Allow full access to all Cloud APIs
 
 
 ### Step 2:  Install external image processing software
@@ -46,6 +48,29 @@ sudo apt-get update
 ```
 ```
 sudo apt-get install -y bc scala sbt
+```
+<br>
+<br>
+
+**Step 2.2:** Set up Feature Detector Files
+
+```
+sudo apt-get update
+```
+```
+gsutil cp gs://spls/gsp124/cloud-dataproc.zip .
+unzip cloud-dataproc.zip
+```
+```
+cd cloud-dataproc/codelabs/opencv-haarcascade
+```
+<br>
+<br>
+
+**Step 2.3:** Launch Build
+
+```
+sbt assembly
 ```
 <br>
 <br>
